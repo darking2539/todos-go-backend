@@ -1,6 +1,8 @@
 version: '3.3'
 services:
+
   db:
+    container_name: mysql
     image: mysql
     restart: always
     environment:
@@ -10,9 +12,29 @@ services:
       MYSQL_ROOT_PASSWORD: 'password'
     ports:
       - '3306:3306'
-    expose:
-      - '3306'
+    networks:
+      - backend
     volumes:
       - mysql-todos-db:/var/lib/mysql
+
+  api-service:
+    container_name: todos-api
+    image: todos-api
+    restart: always
+    build: .
+    environment:
+      - ACCESS_ORIGIN=*
+      - MYSQL_URL=user:password@tcp(mysql:3306)/db
+      - JWT_SECRET=abosszz
+      - PORT=8080
+    networks:
+      - backend
+    ports:
+      - "8080:8080"
+
 volumes:
   mysql-todos-db:
+
+networks:
+  backend:
+    driver: bridge
