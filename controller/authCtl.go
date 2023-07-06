@@ -14,7 +14,7 @@ func RegisterCtl(c *gin.Context) {
 	
 	var request models.RegisterRequest
 	if payloadErr := c.ShouldBindJSON(&request); payloadErr != nil {
-		boom.BadRequest(c.Writer, payloadErr.Error());
+		boom.BadRequest(c.Writer, "field can't empty");
 		return
 	}
 	
@@ -32,7 +32,7 @@ func LoginCtl(c *gin.Context) {
 
 	var request models.LoginRequest
 	if payloadErr := c.ShouldBindJSON(&request); payloadErr != nil {
-		boom.BadRequest(c.Writer, payloadErr.Error());
+		boom.BadRequest(c.Writer, "field can't empty");
 		return
 	}
 	
