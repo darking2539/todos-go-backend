@@ -12,12 +12,6 @@ import (
 
 func GetListTodosCtl(c *gin.Context) {
 
-	var request models.GetListRequest
-	if payloadErr := c.ShouldBindJSON(&request); payloadErr != nil {
-		boom.BadRequest(c.Writer, payloadErr.Error());
-		return
-	}
-
 	userModel, err := utils.GetUserInfo(c)
 	if err != nil {
 		boom.BadRequest(c.Writer, err.Error());
