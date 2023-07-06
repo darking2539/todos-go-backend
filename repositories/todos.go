@@ -124,7 +124,7 @@ func ListTodosData(username string) ([]models.Todo, error) {
 	}
 	defer queryRows.Close()
 
-	var items []models.Todo
+	items := []models.Todo{}
 
 	for queryRows.Next() {
 		var item models.Todo
