@@ -2,6 +2,7 @@ package db
 
 import (
 	"database/sql"
+	"fmt"
 	"net/http"
 	"os"
 
@@ -72,13 +73,11 @@ func InitTableDB() error {
 		created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 	)`
 
-	_, err := db.Exec(sqlUserTable)
-	if err != nil {
-		return err
-	}
+	_, err1 := db.Exec(sqlUserTable)
+	_, err2 := db.Exec(sqlTodosTable)
 
-	_, err = db.Exec(sqlTodosTable)
-	if err != nil {
+	if err1 != nil && err2 != nil {
+		err := fmt.Errorf("sqlUserTable: %s, sqlTodosTable: %s", err1.Error(), err2.Error())
 		return err
 	}
 
