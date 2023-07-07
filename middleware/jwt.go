@@ -25,14 +25,14 @@ func JWTAuthUser(c *gin.Context) {
 	if token == "" {
 		c.Abort()
 		err := errors.New("token is empty")
-		boom.BadRequest(c.Writer, err.Error())
+		boom.Unathorized(c.Writer, err.Error())
 		return
 	}
 
 	jwtToken, err := validateToken(token);
 	if  err != nil {
 		c.Abort()
-		boom.BadRequest(c.Writer, err.Error())
+		boom.Unathorized(c.Writer, err.Error())
 		return
 	}
 
@@ -55,7 +55,7 @@ func JWTAuthUser(c *gin.Context) {
 		c.Next()
 		
 	} else {
-		boom.BadRequest(c.Writer, jwtToken.Valid);
+		boom.Unathorized(c.Writer, jwtToken.Valid);
 		c.Abort()
 	}
 }
