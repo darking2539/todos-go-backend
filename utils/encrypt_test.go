@@ -1,20 +1,19 @@
-package test
+package utils
 
 import (
 	"testing"
-	"todos-go-backend/utils"
 )
 
 func TestHashFunction(t *testing.T) {
 
 	password := "123456"
 	
-	hashPassword, err := utils.HashPassword(password)
+	hashPassword, err := HashPassword(password)
 	if err != nil {
 		t.Errorf("Failed with: %s", err.Error())
 	}
 	
-	if !utils.CheckPasswordHash(password, hashPassword) {
+	if !CheckPasswordHash(password, hashPassword) {
 		t.Errorf("Failed with: password not match" )
 	}
 
