@@ -10,7 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func RegisterCtl(c *gin.Context) {
+func RegisterHandler(c *gin.Context) {
 	
 	var request models.RegisterRequest
 	if payloadErr := c.ShouldBindJSON(&request); payloadErr != nil {
@@ -28,7 +28,7 @@ func RegisterCtl(c *gin.Context) {
 	json.NewEncoder(c.Writer).Encode(&resp);
 }
 
-func LoginCtl(c *gin.Context) {
+func LoginHandler(c *gin.Context) {
 
 	var request models.LoginRequest
 	if payloadErr := c.ShouldBindJSON(&request); payloadErr != nil {
@@ -46,7 +46,7 @@ func LoginCtl(c *gin.Context) {
 	json.NewEncoder(c.Writer).Encode(&resp);
 }
 
-func ChangePasswordCtl(c *gin.Context) {
+func ChangePasswordHandler(c *gin.Context) {
 	
 	var request models.ChangePasswordRequest
 	if payloadErr := c.ShouldBindJSON(&request); payloadErr != nil {

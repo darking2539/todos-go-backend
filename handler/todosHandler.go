@@ -10,7 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func GetListTodosCtl(c *gin.Context) {
+func GetListTodosHandler(c *gin.Context) {
 
 	userModel, err := utils.GetUserInfo(c)
 	if err != nil {
@@ -28,7 +28,7 @@ func GetListTodosCtl(c *gin.Context) {
 	json.NewEncoder(c.Writer).Encode(&resp);
 }
 
-func SubmitTodosCtl(c *gin.Context) {
+func SubmitTodosHandler(c *gin.Context) {
 	
 	var request models.SubmitTodosRequest
 	if payloadErr := c.ShouldBindJSON(&request); payloadErr != nil {
@@ -52,7 +52,7 @@ func SubmitTodosCtl(c *gin.Context) {
 	json.NewEncoder(c.Writer).Encode(&resp);
 }
 
-func DeleteTodosCtl(c *gin.Context) {
+func DeleteTodosHandler(c *gin.Context) {
 
 	taskId := c.Param("id")
 	if taskId == "" {

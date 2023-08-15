@@ -14,15 +14,15 @@ func Setup(router *gin.Engine) {
 
 	//auth
 	authRouter := router.Group("/auth")
-	authRouter.POST("/login", handler.LoginCtl)
-	authRouter.POST("/register", handler.RegisterCtl)
-	authRouter.POST("/changepassword", middleware.JWTAuthUser, handler.ChangePasswordCtl)
+	authRouter.POST("/login", handler.LoginHandler)
+	authRouter.POST("/register", handler.RegisterHandler)
+	authRouter.POST("/changepassword", middleware.JWTAuthUser, handler.ChangePasswordHandler)
 
 	//todos
 	todosRouter := router.Group("/todos")
 	todosRouter.Use(middleware.JWTGetUserMiddleware())
-	todosRouter.POST("/submit", handler.SubmitTodosCtl)
-	todosRouter.GET("/list", handler.GetListTodosCtl)
-	todosRouter.DELETE("/:id", handler.DeleteTodosCtl)
+	todosRouter.POST("/submit", handler.SubmitTodosHandler)
+	todosRouter.GET("/list", handler.GetListTodosHandler)
+	todosRouter.DELETE("/:id", handler.DeleteTodosHandler)
 
 }
