@@ -1,7 +1,7 @@
 package router
 
 import (
-	ctl "todos-go-backend/controller"
+	handler "todos-go-backend/handler"
 	"todos-go-backend/db"
 	"todos-go-backend/middleware"
 
@@ -14,15 +14,15 @@ func Setup(router *gin.Engine) {
 
 	//auth
 	authRouter := router.Group("/auth")
-	authRouter.POST("/login", ctl.LoginCtl)
-	authRouter.POST("/register", ctl.RegisterCtl)
-	authRouter.POST("/changepassword", middleware.JWTAuthUser, ctl.ChangePasswordCtl)
+	authRouter.POST("/login", handler.LoginCtl)
+	authRouter.POST("/register", handler.RegisterCtl)
+	authRouter.POST("/changepassword", middleware.JWTAuthUser, handler.ChangePasswordCtl)
 
 	//todos
 	todosRouter := router.Group("/todos")
 	todosRouter.Use(middleware.JWTGetUserMiddleware())
-	todosRouter.POST("/submit", ctl.SubmitTodosCtl)
-	todosRouter.GET("/list", ctl.GetListTodosCtl)
-	todosRouter.DELETE("/:id", ctl.DeleteTodosCtl)
+	todosRouter.POST("/submit", handler.SubmitTodosCtl)
+	todosRouter.GET("/list", handler.GetListTodosCtl)
+	todosRouter.DELETE("/:id", handler.DeleteTodosCtl)
 
 }
