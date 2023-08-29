@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"os"
-	"strings"
 	"time"
 	"todos-go-backend/models"
 
@@ -19,8 +18,15 @@ var secretKey = os.Getenv("JWT_SECRET")
 
 func JWTAuthUser(c *gin.Context) {
 	
-	s := c.Request.Header.Get("Authorization")
-	token := strings.TrimPrefix(s, "Bearer ")
+	s, err := c.Cookie("jwtToken")
+	if err != nil {
+		c.Abort()
+		err := errors.New("token is empty")
+		boom.Unathorized(c.Writer, err.Error())
+		return
+	}
+
+	token := s
 
 	if token == "" {
 		c.Abort()
@@ -42,6 +48,10 @@ func JWTAuthUser(c *gin.Context) {
 			Id: fmt.Sprintf("%v", claims["id"]),
 			Username: fmt.Sprintf("%v", claims["username"]),
 			Email: fmt.Sprintf("%v", claims["email"]),
+			LineToken: fmt.Sprintf("%v", claims["lineToken"]),
+			DisplayName: fmt.Sprintf("%v", claims["displayName"]),
+			PictureUrl: fmt.Sprintf("%v", claims["pictureUrl"]),
+			UserId: fmt.Sprintf("%v", claims["userId"]),
 		}
 
 		userDataBytes, err := json.Marshal(&userData)
@@ -64,13 +74,18 @@ func JWTGetUserMiddleware() gin.HandlerFunc {
 	return JWTAuthUser
 }
 
-func JwtSign(payload models.User) string {
+
+func JwtSign(payload *models.User) string {
 	atClaims := jwt.MapClaims{}
 
 	// Payload begin
 	atClaims["id"] = payload.Id
 	atClaims["username"] = payload.Username
 	atClaims["email"] = payload.Email
+	atClaims["lineToken"] = payload.LineToken
+	atClaims["displayName"] = payload.DisplayName
+	atClaims["pictureUrl"] = payload.PictureUrl
+	atClaims["userId"] = payload.UserId
 	atClaims["exp"] = time.Now().Add(time.Hour * 1).Unix()
 
 	at := jwt.NewWithClaims(jwt.SigningMethodHS256, atClaims)

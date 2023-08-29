@@ -29,7 +29,7 @@ func LoginSv(request models.LoginRequest) (*models.LoginResponse, error) {
 		return nil, err
 	}
 
-	jwtToken := middleware.JwtSign(*userData)
+	jwtToken := middleware.JwtSign(userData)
 
 	resp := models.LoginResponse{
 		Token: jwtToken,

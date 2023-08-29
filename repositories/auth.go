@@ -93,7 +93,7 @@ func UpdatedPassword(id string, passwordHash string) (*int64, error) {
 	defer conn.Close()
 
 	sqlStr := fmt.Sprintf("UPDATE users SET password='%s' where id='%s' ", passwordHash, id)
-	fmt.Println(sqlStr)
+
 
 	stmt, prepErr := conn.Prepare(sqlStr)
 	if prepErr != nil {

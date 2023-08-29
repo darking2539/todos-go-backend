@@ -16,7 +16,7 @@ func InsertTodoData(req models.Todo) (*int64, error) {
 	defer conn.Close()
 
 	sqlStr := fmt.Sprintf("insert into todos(id, title, complete, username) values('%s', '%s', %t, '%s')", req.Id, req.Title, req.Complete, req.Username)
-	fmt.Println(sqlStr)
+
 
 	stmt, prepErr := conn.Prepare(sqlStr)
 	if prepErr != nil {
@@ -45,7 +45,6 @@ func UpdatedTodoData(req models.Todo) (*int64, error) {
 	defer conn.Close()
 
 	sqlStr := fmt.Sprintf("update todos set title='%s', complete=%t where id='%s' and username='%s' ", req.Title, req.Complete, req.Id, req.Username)
-	fmt.Println(sqlStr)
 
 	stmt, prepErr := conn.Prepare(sqlStr)
 	if prepErr != nil {

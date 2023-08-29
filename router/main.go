@@ -14,7 +14,10 @@ func Setup(router *gin.Engine) {
 
 	//auth
 	authRouter := router.Group("/auth")
-	authRouter.POST("/login", handler.LoginHandler)
+	authRouter.GET("/login", handler.LoginHandler)
+	authRouter.GET("/logout", handler.LogoutHandler)
+	authRouter.GET("/getuser", middleware.JWTAuthUser, handler.GetUserHandler)
+	authRouter.GET("/callback", handler.CallbackHandler)
 	authRouter.POST("/register", handler.RegisterHandler)
 	authRouter.POST("/changepassword", middleware.JWTAuthUser, handler.ChangePasswordHandler)
 

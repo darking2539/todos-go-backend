@@ -20,3 +20,7 @@ type ChangePasswordRequest struct {
 type LoginResponse struct {
 	Token string `json:"token"`
 }
+
+type LoginLineResponse struct {
+	Detail map[string]string `json:"detail"`
+}
