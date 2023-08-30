@@ -2,6 +2,7 @@ package handler
 
 import (
 	"encoding/json"
+	"fmt"
 	"todos-go-backend/env"
 	"todos-go-backend/middleware"
 	"todos-go-backend/models"
@@ -115,9 +116,10 @@ func CallbackHandler(c *gin.Context) {
 	}
 
 	jwtToken := middleware.JwtSign(&userData)
+	redirectURL := fmt.Sprintf("%s/todos?jwtToken=%s", env.FRONTEND_URL, jwtToken)
 
 	c.SetCookie("jwtToken", jwtToken, 60*60*3, "/", env.FRONTEND_URL, true, true)
-	c.Redirect(http.StatusMovedPermanently, env.FRONTEND_URL)
+	c.Redirect(http.StatusMovedPermanently, redirectURL)
 }
 
 func GetUserHandler(c *gin.Context) {

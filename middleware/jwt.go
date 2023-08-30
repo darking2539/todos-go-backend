@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"strings"
 	"time"
 	"todos-go-backend/models"
 
@@ -18,16 +19,16 @@ var secretKey = os.Getenv("JWT_SECRET")
 
 func JWTAuthUser(c *gin.Context) {
 	
-	s, err := c.Cookie("jwtToken")
-	if err != nil {
-		c.Abort()
-		err := errors.New("token is empty")
-		boom.Unathorized(c.Writer, err.Error())
-		return
+	tokenCookie, _ := c.Cookie("jwtToken")
+
+	s := c.Request.Header.Get("Authorization")
+	tokenHeader := strings.TrimPrefix(s, "Bearer ")
+
+	token := tokenCookie
+	if tokenHeader != "" && tokenCookie == ""{
+		token = tokenHeader
 	}
-
-	token := s
-
+	
 	if token == "" {
 		c.Abort()
 		err := errors.New("token is empty")
